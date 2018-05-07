@@ -1,6 +1,8 @@
 package com.company;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -26,25 +28,11 @@ public class Player {
             int actionNumber = random.nextInt(3);
             this.action = Actions.generateMove(actionNumber);
         } else {
-            String option = "";
-            boolean hasValidInput = false;
-            do {
-                try {
-                    System.out.println("Type in 'rock' 'paper' or 'scissors'");
-                    System.out.println("Or type 'quit' to quit playing");
-                    Scanner s = new Scanner(System.in);
-                    option = s.nextLine().toLowerCase();
-                    if (!option.equals("rock") && !option.equals("paper") && !option.equals("scissors") && !option.equals("quit")) {
-                        throw new IOException();
-                    } else {
-                        hasValidInput = true;
-                        this.action = Character.toUpperCase(option.charAt(0)) + option.substring(1);
-                    }
-                } catch (IOException e) {
-                    Game.errorMessage();
-                }
-            } while (!hasValidInput);
-
+            String option;
+            ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList("rock", "paper", "scissors", "quit"));
+            ArrayList<String> prompts = new ArrayList<String>(Arrays.asList("Type in 'rock' 'paper' or 'scissors'", "Or type 'quit' to quit playing"));
+            option = Game.receiveInputs(validInputs, prompts);
+            this.action = Character.toUpperCase((option.charAt(0))) + option.substring(1);
         }
         this.isTurn = false;
     }

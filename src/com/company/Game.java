@@ -9,11 +9,11 @@ public class Game {
 
     private String menuOption;
     private ArrayList<String> history = new ArrayList<String>();
-    private Scanner s = new Scanner(System.in);
+    private static Scanner s = new Scanner(System.in);
     private String otherPlayerName;
 
     public void init() {
-        String option = "";
+        String option;
         ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList("play", "history", "quit"));
         ArrayList<String> prompts = new ArrayList<String>(Arrays.asList("1. Type 'play' to play", "2. Type 'history' to view history", "Type 'quit' to exit"));
         option = this.receiveInputs(validInputs, prompts);
@@ -27,7 +27,7 @@ public class Game {
 
     private void setupGame() {
         boolean hasValidInput = false;
-        String option = "";
+        String option;
         ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList("computer", "player", "back"));
         ArrayList<String> prompts = new ArrayList<String>(Arrays.asList("Please type 'computer' to play against a computer", "Please type 'player' to play against another player", "Please type 'back' to go back to the main menu"));
         option = this.receiveInputs(validInputs, prompts);
@@ -96,7 +96,8 @@ public class Game {
             System.out.println(otherPlayerName + " Wins!");
             p2.updatePoints();
         }
-        this.addToHistory(isTie, p1Wins, p1, p2);
+        String victoryState = isTie ? "TIE: " : p1Wins ? "WIN: " : "LOSS: ";
+        this.addToHistory(victoryState, p1, p2);
         System.out.println(p1.getStatus() + " has won: " + p1.getPoints() + " times.");
         System.out.println(p2.getStatus() + " has won: " + p2.getPoints() + " times.");
         this.startGame(p1, p2);
@@ -112,19 +113,11 @@ public class Game {
         System.out.println("================");
     }
 
-    private void addToHistory(boolean tieState, boolean p1winnerState, Player p1, Player p2) {
-        if (tieState) {
-            this.history.add("TIE: " + p1.getStatus() + "-" + p1.getAction() + " | " + p2.getStatus() + "-" + p2.getAction());
-        } else {
-            if (p1winnerState) {
-                this.history.add("WIN: " + p1.getStatus() + "-" + p1.getAction() + " | " + p2.getStatus() + "-" + p2.getAction());
-            } else {
-                this.history.add("LOSS: " + p1.getStatus() + "-" + p1.getAction() + " | " + p2.getStatus() + "-" + p2.getAction());
-            }
-        }
+    private void addToHistory(String victoryState, Player p1, Player p2) {
+        this.history.add(victoryState + p1.getStatus() + "-" + p1.getAction() + " | " + p2.getStatus() + "-" + p2.getAction());
     }
 
-    private String receiveInputs(ArrayList<String> validInputs, ArrayList<String> prompts) {
+    public static String receiveInputs(ArrayList<String> validInputs, ArrayList<String> prompts) {
         String input = "";
         boolean hasValidInput = false;
         do {
