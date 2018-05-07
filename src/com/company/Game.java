@@ -139,7 +139,11 @@ public class Game {
 
 
     private void viewHistory() {
-        this.history.forEach(h -> System.out.println(h));
+        if (this.history.size() == 0) {
+            System.out.println("No history");
+        } else {
+            this.history.forEach(h -> System.out.println(h));
+        }
         this.init();
     }
 }
