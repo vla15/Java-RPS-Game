@@ -102,10 +102,7 @@ public class Game {
         System.out.println(p2.getStatus() + " has won: " + p2.getPoints() + " times.");
         this.startGame(p1, p2);
     }
-
-    private void endPrompt() {
-        System.out.println("Would you like to play again? Y/N");
-    }
+    
 
     public static void errorMessage() {
         System.out.println("================");
